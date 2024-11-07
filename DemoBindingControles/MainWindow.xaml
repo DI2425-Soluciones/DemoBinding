@@ -1,0 +1,59 @@
+﻿<Window x:Class="DemoBindingControles.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DemoBindingControles"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <Window.Resources>
+        <local:Convertidor1 x:Key="YesNoToBoolean"/>
+        <local:Convertidor2 x:Key="HacerVisible"/>
+    </Window.Resources>
+    <StackPanel>
+        <!-- Origen datos -->
+        <Label Content="Color" Margin="10,5,5,5"
+               FontSize="18" HorizontalAlignment="Left"/>
+        <TextBox x:Name="colorTextBox" Margin="15,5,5,5"
+                 Width="100" Text="Red"
+                 HorizontalAlignment="Left"/>
+
+        <Label Content="Tamaño de la letra" Margin="10,5,5,5"
+               FontSize="18" HorizontalAlignment="Left"/>
+        <TextBox x:Name="sizeTextBox" Margin="15,5,5,5"
+               Width="100" Text="20"
+               HorizontalAlignment="Left"/>
+
+        <Label Content="Para copiar o actualizar el primer TextBox" HorizontalAlignment="Left" Margin="10,5,5,5"/>
+        <TextBox x:Name="copiarTextBox" Margin="15,5,5,5"
+               Width="100" 
+               HorizontalAlignment="Left"
+               Text="{Binding ElementName=colorTextBox,Path=Text,Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 />
+        <Label Content="Activar o desactivar CHECKBOX" Margin="10,5,5,5"
+               FontSize="18" HorizontalAlignment="Left"/>
+        <TextBox x:Name="activarLabel" Margin="15,5,5,5"
+                 Width="100" Text="no"
+                 HorizontalAlignment="Left"/>
+        <CheckBox x:Name="yesnoCheckBox" Margin="15,15,5,5"
+                  Content="Actualizar LABEL inferior"
+                  HorizontalAlignment="Left"
+                  IsChecked="{Binding ElementName=activarLabel,
+                              Path=Text,Mode=TwoWay,
+                              Converter={StaticResource YesNoToBoolean}}"
+                  />
+
+        <!-- Destino -->
+        <Label Margin="10"
+               HorizontalAlignment="Left"
+               Foreground="{Binding ElementName=colorTextBox, Path=Text, Mode=OneWay}"
+               FontSize="{Binding ElementName=sizeTextBox, Path=Text, Mode=OneWay}"
+               Visibility="{Binding ElementName=yesnoCheckBox, Path=IsChecked,
+                            Converter={StaticResource HacerVisible}}"
+               >
+               Buenos días 2DAM-A.
+        </Label>
+       
+    </StackPanel>
+</Window>
